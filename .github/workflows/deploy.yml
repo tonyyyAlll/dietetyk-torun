@@ -20,11 +20,11 @@ jobs:
       - name: Wysyłka plików na serwer
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
-          server:   ${{ secrets.FTP_SERVER }}     # np. ftp.dietetyktorun.pl
+          server:   ${{ secrets.FTP_SERVER }}     # adres serwera FTP hostingu
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
           protocol: ftps                          # szyfrowane; przy problemach zmień na: ftp
-          server-dir: ${{ secrets.FTP_DIR }}      # katalog domeny, np. /public_html/  (ze slashem na końcu!)
+          server-dir: /dietetyktorun/             # katalog docelowy na serwerze
 
           # Wysyła wyłącznie pliki, które się zmieniły (porównuje ze stanem na serwerze).
           dangerous-clean-slate: false
