@@ -1,0 +1,46 @@
+name: Wgraj na hosting (FTP)
+
+# Po każdym pushu na main strona jedzie na serwer.
+# Można też uruchomić ręcznie: zakładka Actions → "Wgraj na hosting" → Run workflow.
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-produkcja
+  cancel-in-progress: false      # nie przerywaj trwającej wysyłki — uniknie plików w połowie
+
+jobs:
+  wyslij:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Wysyłka plików na serwer
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server:   ${{ secrets.FTP_SERVER }}     # np. ftp.dietetyktorun.pl
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          protocol: ftps                          # szyfrowane; przy problemach zmień na: ftp
+          server-dir: ${{ secrets.FTP_DIR }}      # katalog domeny, np. /public_html/  (ze slashem na końcu!)
+
+          # Wysyła wyłącznie pliki, które się zmieniły (porównuje ze stanem na serwerze).
+          dangerous-clean-slate: false
+
+          # ── NIE DOTYKAJ tych ścieżek na serwerze ──────────────────────────
+          # To dane żywe: konfiguracja z kluczami PayU oraz rezerwacje pacjentów.
+          # Gdyby deploy je nadpisał lub skasował, gabinet straciłby dane i płatności.
+          exclude: |
+            **/.git*
+            **/.git*/**
+            **/.github/**
+            **/README.md
+            **/booking-system/api/data/config.json
+            **/booking-system/api/data/config.example.json
+            **/booking-system/api/data/bookings.json
+            **/booking-system/api/data/blocks.json
+            **/booking-system/api/data/exceptions.json
+            **/booking-system/api/data/push_subscriptions.json
+            **/booking-system/api/data/backup*.zip
