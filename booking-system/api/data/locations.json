@@ -1,0 +1,44 @@
+[
+  {
+    "id": "torun",
+    "name": "Toruń",
+    "address": "Szosa Chełmińska 166, 87-100 Toruń",
+    "hours": {
+      "mon": [],
+      "tue": [["10:00", "16:00"]],
+      "wed": [["15:00", "18:30"]],
+      "thu": [],
+      "fri": [],
+      "sat": [["11:00", "15:00"]],
+      "sun": []
+    }
+  },
+  {
+    "id": "plock",
+    "name": "Płock",
+    "address": "",
+    "hours": {
+      "mon": [],
+      "tue": [],
+      "wed": [],
+      "thu": [],
+      "fri": [],
+      "sat": [],
+      "sun": []
+    }
+  },
+  {
+    "id": "warszawa",
+    "name": "Warszawa",
+    "address": "",
+    "hours": {
+      "mon": [],
+      "tue": [],
+      "wed": [],
+      "thu": [],
+      "fri": [],
+      "sat": [],
+      "sun": []
+    }
+  }
+]

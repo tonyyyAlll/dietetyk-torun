@@ -1,0 +1,112 @@
+# ── DietetykToruń.pl — konfiguracja Apache ─────────────────────────
+
+AddDefaultCharset UTF-8
+DirectoryIndex index.html
+ErrorDocument 404 /404.html
+
+<IfModule mod_rewrite.c>
+RewriteEngine On
+
+# 1) Wymuś HTTPS i domenę bez www
+RewriteCond %{HTTPS} !=on [OR]
+RewriteCond %{HTTP_HOST} ^www\. [NC]
+RewriteRule ^(.*)$ https://dietetyktorun.pl/$1 [R=301,L]
+
+# 2) Stary endpoint API WordPressa → nowe API rezerwacji (parametry zachowane)
+RewriteRule ^wp-json/rs/v1/api/?$ /booking-system/api/api.php [L,QSA]
+
+# 3) Obrazy z wp-content/uploads → /img/ (301, zachowanie mocy SEO w Google Grafika)
+RewriteRule ^wp-content/uploads/[0-9]{4}/[0-9]{2}/dietetyk-kliniczny-Torun-–-SIBO-IBS-INSULINOOPORNOSC-i-SPORT\.webp$ /img/dietetyk-kliniczny-Torun-SIBO-IBS-INSULINOOPORNOSC-i-SPORT.webp [R=301,L,NE]
+RewriteRule ^wp-content/uploads/[0-9]{4}/[0-9]{2}/(.+)$ /img/$1 [R=301,L]
+
+# 4) Przekierowania 301 ze starych adresów (przeniesione 1:1 z wtyczki Redirection WordPress) → właściwe strony
+# --- strony usług, pakietów, treści ---
+RewriteRule ^o-mnie/?$ /dietetyk-kliniczny-torun-o-mnie/ [R=301,L]
+RewriteRule ^kontakt/?$ /dietetyk-torun-kontakt/ [R=301,L]
+RewriteRule ^baza-wiedzy/?$ /category/blog/ [R=301,L]
+RewriteRule ^cennik/?$ /cennik-dietetyczny-torun/ [R=301,L]
+RewriteRule ^dietetyk-torun-cennik/?$ /cennik-dietetyczny-torun/ [R=301,L]
+RewriteRule ^pierwsza-wizyta/?$ /pierwsza-wizyta-u-dietetyka-torun/ [R=301,L]
+RewriteRule ^pakiet-podstawowy/?$ /pierwsza-wizyta-u-dietetyka-torun/ [R=301,L]
+RewriteRule ^pakiet-sportowy-gold/?$ /pakiet-amator-sportowy-dieta-i-suplementacja-dla-aktywnych/ [R=301,L]
+RewriteRule ^pakiet-sportowy/?$ /dieta-i-suplementacja-dla-sportowcow/ [R=301,L]
+RewriteRule ^pakiet-promocyjny-1-konsultacja-gratis/?$ /dieta-na-mlodosc-torun/ [R=301,L]
+RewriteRule ^wizyta-kontrolna-z-nowym-jadlospisem/?$ /dieta-jelita-zoladek-torun/ [R=301,L]
+RewriteRule ^uslugi-2/?$ /dieta-w-chorobach-torun/ [R=301,L]
+RewriteRule ^jadlospis/?$ /przepisy/ [R=301,L]
+# --- adresy, które w WordPressie szły na stronę główną; kierujemy na odpowiednią sekcję strony głównej ---
+RewriteRule ^moje-uslugi/?$ / [R=301,L]
+RewriteRule ^opinie/?$ /#opinie [R=301,L,NE]
+RewriteRule ^opinie-2/?$ /#opinie [R=301,L,NE]
+RewriteRule ^metamorfozy/?$ /#wyniki [R=301,L,NE]
+# --- leksykon: wszystkie dawne osobne moduły /leksykon/... scalone w jedną stronę (jedna reguła łapie też pozycje ukryte pod listą) ---
+RewriteRule ^leksykon(/.*)?$ /leksykon-jelitowy-sibo-imo-ibs/ [R=301,L]
+# --- dawne błędne/testowe oraz sklepowe adresy ---
+RewriteRule ^dieta-mlodosoocccc/?$ /dieta-na-mlodosc-torun/ [R=301,L]
+RewriteRule ^anty-age/?$ /dieta-na-mlodosc-torun/ [R=301,L]
+RewriteRule ^pakiet-zawodnik-dieta-i-suplementacja-sportowa/?$ /pakiet-zawodnik-dieta-i-suplementacja/ [R=301,L]
+RewriteRule ^pakiet-performance-premium/?$ /dietetyk-sportowy-masters-torun-performance-premium/ [R=301,L]
+RewriteRule ^sklep-sportowy/?$ /sklep/ [R=301,L]
+RewriteRule ^category/przepisy/?$ /przepisy/ [R=301,L]
+# domyślna kategoria WordPressa oraz stary indeks /blog/ (na żywej stronie 200) → listing bloga
+RewriteRule ^category/uncategorized/?$ /category/blog/ [R=301,L]
+RewriteRule ^blog/?$ /category/blog/ [R=301,L]
+RewriteRule ^(koszyk|zamowienie|zamowienia|moje-konto)/?$ /sklep/ [R=301,L]
+# --- wpisy blogowe przeniesione ze slugów po demo-wpisach WordPressa (właściwe artykuły) ---
+RewriteRule ^2973-2/?$ /fodmap-stacking-low-fodmap-wzdecia/ [R=301,L]
+RewriteRule ^maximizing-your-blogs-reach-seo-tips-for-bloggers/?$ /test-oddechowy-sibo-imo-przygotowanie/ [R=301,L]
+RewriteRule ^crafting-the-perfect-blog-structure-a-guide-for-effective-blogging/?$ /wzdety-brzuch-ukryta-przyczyna-sibo/ [R=301,L]
+
+# 5) Śmieciowe demo-wpisy WordPressa → 410 Gone (szybkie usunięcie z indeksu)
+RewriteRule ^(hello-world|reviews|services|our-mission|gallery)/?$ - [G]
+RewriteRule ^(effective-blog-promotion-strategies-to-increase-your-reach)/?$ - [G]
+RewriteRule ^(wp-admin|wp-login\.php|wp-includes|xmlrpc\.php) - [G]
+
+# 6) Panel rezerwacji (bez indeksowania — patrz robots.txt)
+RewriteRule ^panel-rezerwacji/?$ /booking-system/admin/index.html [L]
+
+# 7) Bezpośrednie wejścia na pliki .html → adresy kanoniczne (301)
+RewriteCond %{THE_REQUEST} \s/index\.html [NC]
+RewriteRule ^ / [R=301,L]
+RewriteCond %{THE_REQUEST} \s/category-blog\.html [NC]
+RewriteRule ^ /category/blog/ [R=301,L]
+RewriteCond %{THE_REQUEST} \s/category-leksykon-medyczny\.html [NC]
+RewriteRule ^ /category/leksykon-medyczny/ [R=301,L]
+RewriteCond %{THE_REQUEST} \s/([a-z0-9-]+)\.html [NC]
+RewriteRule ^ /%1/ [R=301,L]
+
+# 8) Kategorie bloga (styl WordPressa /category/...)
+RewriteRule ^category/blog/$ category-blog.html [L]
+RewriteRule ^category/leksykon-medyczny/$ category-leksykon-medyczny.html [L]
+RewriteRule ^category/(blog|leksykon-medyczny)$ /category/$1/ [R=301,L]
+
+# 9) Adres bez ukośnika na końcu → wersja z ukośnikiem (301)
+RewriteCond %{DOCUMENT_ROOT}/$1.html -f
+RewriteRule ^([a-z0-9-]+)$ /$1/ [R=301,L]
+
+# 10) Adresy kanoniczne /slug/ → wewnętrznie serwuj pliki .html (bez przekierowania)
+RewriteCond %{DOCUMENT_ROOT}/$1.html -f
+RewriteRule ^([a-z0-9-]+)/$ $1.html [L]
+</IfModule>
+
+# Kompresja tekstu
+<IfModule mod_deflate.c>
+AddOutputFilterByType DEFLATE text/html text/css application/javascript image/svg+xml application/xml application/json text/plain
+</IfModule>
+
+# Cache przeglądarki — HTML/CSS/JS zawsze świeże, obrazy cache'owane długo
+<IfModule mod_expires.c>
+ExpiresActive On
+ExpiresByType image/jpeg "access plus 30 days"
+ExpiresByType image/webp "access plus 30 days"
+ExpiresByType image/png "access plus 30 days"
+ExpiresByType image/svg+xml "access plus 30 days"
+ExpiresByType text/html "access plus 0 seconds"
+ExpiresByType text/css "access plus 0 seconds"
+ExpiresByType application/javascript "access plus 0 seconds"
+</IfModule>
+<IfModule mod_headers.c>
+<FilesMatch "\.(html|css|js)$">
+Header set Cache-Control "no-cache, must-revalidate"
+</FilesMatch>
+</IfModule>

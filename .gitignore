@@ -1,0 +1,17 @@
+# ── SEKRETY — NIGDY do repozytorium ──────────────────────────────────────
+# Produkcyjne dane PayU (clientSecret, secondKey) + klucz panelu admina.
+# Wzorzec pliku: booking-system/api/data/config.example.json
+booking-system/api/data/config.json
+
+# ── DANE OSOBOWE PACJENTÓW ───────────────────────────────────────────────
+booking-system/api/data/bookings.json
+booking-system/api/data/push_subscriptions.json
+booking-system/api/data/backup*.zip
+
+# ── pliki robocze/testowe (podglądy, harnessy) ───────────────────────────
+_*.html
+
+# ── systemowe ────────────────────────────────────────────────────────────
+Thumbs.db
+desktop.ini
+.DS_Store

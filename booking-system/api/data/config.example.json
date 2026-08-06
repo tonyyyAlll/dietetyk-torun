@@ -1,0 +1,16 @@
+{
+  "apiKey": "",
+  "adminEmail": "radoslaw.sialkowski@gmail.com",
+  "siteName": "Przyjazny Dietetyk",
+  "fromEmail": "radoslaw.sialkowski@przyjazny-dietetyk.pl",
+  "baseUrl": "https://dietetyktorun.pl",
+  "payu": {
+    "enabled": false,
+    "sandbox": true,
+    "posId": "",
+    "clientId": "",
+    "clientSecret": "",
+    "secondKey": "",
+    "currency": "PLN"
+  }
+}

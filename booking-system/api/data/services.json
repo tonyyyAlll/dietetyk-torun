@@ -1,0 +1,19 @@
+[
+  { "id": "konsultacja-pierwsza", "name": "Konsultacja dietetyczna (pierwsza wizyta)", "duration": 60, "price": 200, "color": "#2563eb" },
+  { "id": "konsultacja-choroby", "name": "Konsultacja w jednostkach chorobowych", "duration": 60, "price": 200, "color": "#7c3aed" },
+  { "id": "dieta-sportowcy", "name": "Dieta dla sportowców", "duration": 60, "price": 200, "color": "#0ea5e9" },
+  { "id": "pakiet-sportowcy", "name": "Dieta dla sportowców (pakiet)", "duration": 60, "price": 700, "color": "#0ea5e9" },
+  { "id": "pakiet-amator-sportowy", "name": "Pakiet Amator Sportowy", "duration": 60, "price": 700, "color": "#2563eb", "requiresPayment": true },
+  { "id": "pakiet-zawodnik", "name": "Pakiet Zawodnik", "duration": 60, "price": 1200, "color": "#2563eb", "requiresPayment": true },
+  { "id": "pakiet-performance-premium", "name": "Pakiet Performance Premium", "duration": 60, "price": 1800, "color": "#0f172a", "requiresPayment": true },
+  { "id": "pakiet-metabolizm-35", "name": "Metabolizm 35+", "duration": 60, "price": 700, "color": "#2563eb", "requiresPayment": true },
+  { "id": "pakiet-witalnosc-35", "name": "Protokół Witalności 35+", "duration": 60, "price": 1000, "color": "#2563eb", "requiresPayment": true },
+  { "id": "pakiet-dlugowiecznosc-35", "name": "Protokół Długowieczności 35+", "duration": 60, "price": 1500, "color": "#2563eb", "requiresPayment": true },
+  { "id": "pakiet-kolagen-35", "name": "Kolagen i Metabolizm 35+", "duration": 60, "price": 700, "color": "#db2777", "requiresPayment": true },
+  { "id": "pakiet-hormony-35", "name": "Hormony i Witalność 35+", "duration": 60, "price": 1000, "color": "#db2777", "requiresPayment": true },
+  { "id": "pakiet-piekno-zdrowie-35", "name": "Protokół Piękna i Zdrowia 35+", "duration": 60, "price": 1500, "color": "#db2777", "requiresPayment": true },
+  { "id": "dieta-jelita", "name": "Dieta w schorzeniach jelit", "duration": 60, "price": 200, "color": "#16a34a" },
+  { "id": "pakiet-para", "name": "Pakiet dietetyczny dla pary", "duration": 60, "price": 600, "color": "#db2777" },
+  { "id": "pakiet-3mc", "name": "Pakiet dietetyczny 3 miesiące", "duration": 60, "price": 900, "color": "#f59e0b" },
+  { "id": "pakiet-specjalistyczny", "name": "Pakiet Specjalistyczny (hormony/metabolizm)", "duration": 60, "price": 1000, "color": "#ef4444" }
+]

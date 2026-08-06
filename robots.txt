@@ -1,0 +1,47 @@
+User-agent: *
+Allow: /
+
+# Blokujemy wyłącznie API (dane osobowe) i panel administracyjny.
+# Katalog /booking-system/widget/ MUSI pozostać dostępny — Googlebot potrzebuje
+# booking-widget.js, żeby wyrenderować formularz rezerwacji na /rezerwacja/.
+Disallow: /booking-system/api/
+Disallow: /booking-system/admin/
+Disallow: /panel-rezerwacji/
+
+# /rezerwacja-potwierdzenie/ ma <meta name="robots" content="noindex,follow">.
+# NIE blokujemy jej w robots.txt — inaczej Google nie odczytałby dyrektywy noindex.
+
+# Boty modeli językowych — świadomie DOPUSZCZONE do treści (AEO: chcemy być cytowani),
+# ale z tym samym wyłączeniem API/panelu co reszta. Nazwany user-agent ignoruje blok "*",
+# dlatego wykluczenia trzeba powtórzyć jawnie dla każdego z osobna.
+User-agent: GPTBot
+Disallow: /booking-system/api/
+Disallow: /booking-system/admin/
+Disallow: /panel-rezerwacji/
+Allow: /
+
+User-agent: OAI-SearchBot
+Disallow: /booking-system/api/
+Disallow: /booking-system/admin/
+Disallow: /panel-rezerwacji/
+Allow: /
+
+User-agent: ClaudeBot
+Disallow: /booking-system/api/
+Disallow: /booking-system/admin/
+Disallow: /panel-rezerwacji/
+Allow: /
+
+User-agent: PerplexityBot
+Disallow: /booking-system/api/
+Disallow: /booking-system/admin/
+Disallow: /panel-rezerwacji/
+Allow: /
+
+User-agent: Google-Extended
+Disallow: /booking-system/api/
+Disallow: /booking-system/admin/
+Disallow: /panel-rezerwacji/
+Allow: /
+
+Sitemap: https://dietetyktorun.pl/sitemap.xml
