@@ -1171,3 +1171,7 @@ iframe[src*="docplanner"]{display:block;max-width:500px;margin-left:auto;margin-
   .pnav-msub a:hover{color:var(--blue-d)}
   .pnav-mcta{display:block;text-align:center;margin-top:18px;background:var(--orange);color:#fff;text-decoration:none;padding:14px;border-radius:999px;font-weight:700}
 }
+
+/* deep-linki do leksykonu: kotwica ma się zatrzymać POD przyklejonym menu, nie za nim */
+:target{scroll-margin-top:104px}
+@media(max-width:960px){:target{scroll-margin-top:92px}}
