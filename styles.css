@@ -1175,3 +1175,93 @@ iframe[src*="docplanner"]{display:block;max-width:500px;margin-left:auto;margin-
 /* deep-linki do leksykonu: kotwica ma się zatrzymać POD przyklejonym menu, nie za nim */
 :target{scroll-margin-top:104px}
 @media(max-width:960px){:target{scroll-margin-top:92px}}
+
+/* ── Odnośniki w treści ──────────────────────────────────────────────
+   Bez tego linki wstawione w akapitach dostawały domyślny niebieski
+   przeglądarki (#0000EE) z grubym podkreśleniem — obcy dla layoutu.
+   Dotyczy tylko linków BEZ klasy (przyciski, kafelki i nawigacja mają swoje). */
+main p a:not([class]),
+main li a:not([class]),
+main .check-item a:not([class]),
+main .faq-card-a a:not([class]),
+main dd a:not([class]),
+main td a:not([class]){
+  color:var(--blue-d);
+  font-weight:600;
+  text-decoration:underline;
+  text-decoration-color:rgb(12 107 157 / .32);
+  text-decoration-thickness:1.5px;
+  text-underline-offset:3px;
+  transition:color .18s,text-decoration-color .18s;
+}
+main p a:not([class]):hover,
+main li a:not([class]):hover,
+main .check-item a:not([class]):hover,
+main .faq-card-a a:not([class]):hover,
+main dd a:not([class]):hover,
+main td a:not([class]):hover{
+  color:var(--orange-d);
+  text-decoration-color:var(--orange);
+}
+main a:not([class]):focus-visible{outline:2px solid var(--blue);outline-offset:2px;border-radius:3px}
+
+/* ── Makieta telefonów na mobile ─────────────────────────────────────
+   .fon miał flex-shrink, więc na wąskim ekranie zwężał się do ~130px,
+   a .fon__ekran trzymał sztywne height:460px → ekrany robiły się
+   nienaturalnie wydłużone. Teraz telefon zachowuje projektową szerokość,
+   a cała makieta jest pomniejszana (zoom wpływa na layout, w odróżnieniu
+   od transform:scale, więc nie trzeba kompensować wysokości).
+   aspect-ratio pilnuje proporcji także tam, gdzie zoom nie zadziała. */
+@media(max-width:600px){
+  .two-col-photo .makieta{zoom:.78;padding-bottom:3rem}
+  .two-col-photo .fon{flex:0 0 250px}
+  .fon__ekran{height:auto;aspect-ratio:250 / 460}
+}
+/* progi dobrane do realnej szerokości kolumny: makieta ma ~462px projektowych,
+   więc zoom schodzi dopiero wtedy, gdy przestaje się mieścić (iPhone 375 → .70, SE 320 → .62) */
+@media(max-width:400px){ .two-col-photo .makieta{zoom:.7} }
+@media(max-width:345px){ .two-col-photo .makieta{zoom:.62} }
+
+/* ── Realistyczna obudowa telefonu w makiecie ────────────────────────
+   Wcześniej „telefon" był po prostu ciemnym prostokątem z zaokrągleniem.
+   Teraz: metaliczna krawędź (dwa pierścienie inset), boczne przyciski,
+   wyspa aparatu na górze ekranu i pasek gestu na dole. */
+.fon{
+  position:relative;
+  background:linear-gradient(150deg,#39485a 0%,#16232f 22%,#0f1e2b 62%,#2a3846 100%);
+  border-radius:40px;
+  padding:10px;
+  box-shadow:
+    0 30px 60px -28px rgb(15 30 43 / .5),
+    0 2px 5px rgb(15 30 43 / .25),
+    inset 0 0 0 1.5px rgb(255 255 255 / .16),   /* połysk krawędzi */
+    inset 0 0 0 4px rgb(11 18 26 / .9);          /* czarna ramka pod szkłem */
+}
+/* boczne przyciski: głośność (lewa) i włącznik (prawa) */
+.fon::before,.fon::after{
+  content:'';position:absolute;width:3px;border-radius:3px;
+  background:linear-gradient(180deg,#3d4c5c,#1b2733);
+}
+.fon::before{left:-2px;top:22%;height:12%;box-shadow:0 22px 0 #26333f}
+.fon::after{right:-2px;top:28%;height:16%}
+
+.fon__ekran{position:relative;border-radius:31px;padding-top:2px}
+/* wyspa aparatu */
+.fon__ekran::before{
+  content:'';position:absolute;top:7px;left:50%;transform:translateX(-50%);
+  width:34%;max-width:78px;height:17px;border-radius:999px;
+  background:#0b121a;z-index:6;box-shadow:inset 0 0 0 1px rgb(255 255 255 / .06);
+}
+/* pasek gestu */
+.fon__ekran::after{
+  content:'';position:absolute;bottom:5px;left:50%;transform:translateX(-50%);
+  width:36%;max-width:88px;height:4px;border-radius:999px;
+  background:rgb(15 30 43 / .3);z-index:6;
+}
+/* pasek stanu rozsunięty wokół wyspy */
+.fon__pasek{padding:9px 9px 8px;font-size:.58rem}
+.fon__ikony{display:inline-flex;align-items:center;gap:4px;color:var(--granat-900)}
+.fon__ik{height:8px;width:auto;fill:currentColor}
+.fon__ik--bateria{height:9px}
+/* zapas na pasek gestu, żeby treść nie kończyła się tuż pod nim */
+.fon__ekran{padding-bottom:16px}
