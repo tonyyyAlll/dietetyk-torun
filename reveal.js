@@ -78,7 +78,8 @@
   });
 })();
 /* Taśma opinii — duplikacja kart dla płynnej, nieskończonej pętli.
-   Kopie są oznaczone aria-hidden i wykluczone z tabulacji — treść strony bez zmian. */
+   Kopie są oznaczone aria-hidden i wykluczone z tabulacji — treść strony bez zmian.
+   Taśma jedzie CIĄGLE: nie zatrzymuje jej ani najechanie myszą, ani kliknięcie. */
 (function(){
   var track=document.querySelector('.op-track');
   if(!track||track.dataset.marquee) return;
@@ -90,60 +91,27 @@
     track.appendChild(k);
   });
 
-  /* STEROWANIE taśmą — spójne dla desktopu (animacja CSS) i mobile (autoscroll JS):
-     • TAP/KLIK w taśmę = trwała pauza (klasa .op-stop na desktopie + flaga stopped
-       na mobile); ponowny tap = wznowienie. To odpowiedź na „po kliknięciu się nie
-       zatrzymuje".
-     • SWIPE (palec przesunął się >10px) = user przejął sterowanie → zatrzymaj na stałe,
-       niech przewija ręcznie.
-     • hover pauzuje na desktopie przez samo CSS (.op-track:hover).
-     Mobile autoscroll: scrollLeft bywa całkowity → pozycję trzymamy we float 'pos'
-     (inaczej mały przyrost/klatkę zaokrągla się do zera i taśma stoi); pętla po połowie
-     szerokości (duplikaty). */
-  var btn=document.getElementById('opBtn');
+  /* Jedyny wyjątek to systemowe ustawienie "ogranicz animacje" — wtedy stoi. */
   if(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches){
-    track.classList.add('op-stop');
-    if(btn) btn.parentNode.hidden=true;   /* nic sie nie rusza - nie ma czego zatrzymywac */
-    return;
+    track.style.animationPlayState='paused'; return;
   }
+
+  /* Mobile (≤960px) nie ma animacji CSS — przesuwa JS. Pozycję trzymamy we float,
+     bo scrollLeft bywa całkowity i mały przyrost na klatkę zaokrągliłby się do zera.
+     Na czas dotyku przesuwanie ustępuje palcowi — inaczej nie dałoby się przewinąć
+     taśmy ręcznie — i wraca zaraz po puszczeniu. */
   var mq=window.matchMedia('(max-width:960px)');
-  var stopped=false;    /* trwała pauza (tap/swipe) */
-  var pressing=false;   /* palec/przycisk wciśnięty (chwilowa pauza w trakcie dotyku) */
-  var pos=null, downX=null, moved=false;
-
-  /* Sam klik w tasme nie dawal zadnego sygnalu: na desktopie hover i tak pauzuje,
-     wiec po kliknieciu nic nie "zaskakiwalo", a kolejny klik wznawial przewijanie.
-     Stad jawny przycisk pokazujacy stan (i wymagany przez WCAG 2.2.2 mechanizm
-     zatrzymania ruchomej tresci). */
-  function applyStopped(){
-    track.classList.toggle('op-stop', stopped);
-    if(!btn) return;
-    btn.setAttribute('aria-pressed', stopped?'true':'false');
-    btn.classList.toggle('is-stopped', stopped);
-    btn.querySelector('.op-btn-txt').textContent = stopped ? 'Wznów przewijanie' : 'Zatrzymaj przewijanie';
-  }
-  if(btn) btn.addEventListener('click',function(){ stopped=!stopped; applyStopped(); pos=null; });
-
-  track.addEventListener('pointerdown',function(e){
-    downX=e.clientX; moved=false; pressing=true; pos=null;
-  },{passive:true});
-  track.addEventListener('pointermove',function(e){
-    if(downX!==null && Math.abs(e.clientX-downX)>10) moved=true;
-  },{passive:true});
-  track.addEventListener('pointerup',function(){
-    pressing=false;
-    if(downX===null) return;
-    if(moved) stopped=true;        /* swipe → zatrzymaj i oddaj sterowanie */
-    else stopped=!stopped;         /* tap → przełącz pauzę */
-    applyStopped(); pos=null; downX=null;
-  },{passive:true});
-  track.addEventListener('pointercancel',function(){ pressing=false; downX=null; },{passive:true});
+  var pressing=false, pos=null;
+  track.addEventListener('pointerdown',function(){ pressing=true; pos=null; },{passive:true});
+  ['pointerup','pointercancel','pointerleave'].forEach(function(t){
+    track.addEventListener(t,function(){ pressing=false; pos=null; },{passive:true});
+  });
 
   var lastTs=null;
   function step(ts){
     var dt=lastTs===null?16:Math.min(ts-lastTs,64); /* cap: po powrocie do karty bez skoku */
     lastTs=ts;
-    if(mq.matches && !stopped && !pressing && !document.hidden){
+    if(mq.matches && !pressing && !document.hidden){
       var half=track.scrollWidth/2;
       if(half>0){
         if(pos===null) pos=track.scrollLeft;

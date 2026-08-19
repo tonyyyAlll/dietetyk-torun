@@ -681,12 +681,9 @@ body>footer a:hover{color:var(--orange)}
 /* OPINIE — taśma jak na przyjazny-dietetyk.pl: pochylone kremowe karty, pomarańczowa krawędź, nieskończony przesuw */
 .op-sec{background:var(--white);padding:72px 0 64px;overflow:hidden}
 .op-sec .sec-head-center{padding:0 8vw}
-.op-track{display:flex;width:max-content;padding:36px 0 28px;animation:op-jazda 55s linear infinite;cursor:pointer}
+.op-track{display:flex;width:max-content;padding:36px 0 28px;animation:op-jazda 55s linear infinite}
 .op-track::-webkit-scrollbar{display:none}
-/* Interakcja: hover pauzuje (desktop), a klik/tap dokłada .op-stop = trwała pauza
-   (JS toggluje klasę). Oba przez animation-play-state — działa na animacji CSS. */
-.op-track:hover{animation-play-state:paused}
-.op-track.op-stop{animation-play-state:paused}
+/* Taśma jedzie bez przerwy — bez pauzy na hover i bez zatrzymywania klikiem. */
 .op-card{flex:0 0 310px;margin-right:44px;background:var(--cream);border-radius:16px;border-bottom:2.5px solid var(--orange);box-shadow:0 10px 30px -12px rgba(15,30,43,.18);padding:24px 22px;display:flex;flex-direction:column}
 .op-card:nth-child(8n+1){transform:rotate(-6.2deg)}
 .op-card:nth-child(8n+2){transform:rotate(10.66deg)}
@@ -1297,23 +1294,3 @@ main a:not([class]):focus-visible{outline:2px solid var(--blue);outline-offset:2
 @media(max-width:400px){ .two-col-photo .makieta{zoom:.66} }
 @media(max-width:345px){ .two-col-photo .makieta{zoom:.58} }
 
-/* ── Sterowanie taśmą opinii ─────────────────────────────────────────
-   Klik w samą taśmę działał, ale nie dawał sygnału: na desktopie hover
-   i tak pauzuje, więc zatrzymanie było niewidoczne, a kolejny klik
-   wznawiał. Jawny przycisk pokazuje stan (i spełnia WCAG 2.2.2 —
-   ruchoma treść musi mieć mechanizm zatrzymania). */
-.op-ctrl{display:flex;justify-content:center;margin-top:6px}
-.op-btn{
-  display:inline-flex;align-items:center;gap:9px;
-  font:inherit;font-size:.82rem;font-weight:650;color:var(--ink);
-  background:#fff;border:1px solid var(--border);border-radius:999px;
-  padding:9px 18px;cursor:pointer;
-  transition:border-color .18s,color .18s,background .18s,box-shadow .18s;
-}
-.op-btn:hover{border-color:var(--blue);color:var(--blue-d);box-shadow:0 6px 18px -12px rgb(15 30 43 / .5)}
-.op-btn:focus-visible{outline:2px solid var(--blue);outline-offset:3px}
-.op-btn-ico{width:12px;height:12px;flex:0 0 auto;background:var(--orange);
-  /* dwie kreski = pauza */
-  clip-path:polygon(0 0,36% 0,36% 100%,0 100%,0 0,64% 0,100% 0,100% 100%,64% 100%,64% 0);
-}
-.op-btn.is-stopped .op-btn-ico{clip-path:polygon(8% 0,100% 50%,8% 100%)}  /* trójkąt = wznów */
