@@ -100,15 +100,29 @@
      Mobile autoscroll: scrollLeft bywa całkowity → pozycję trzymamy we float 'pos'
      (inaczej mały przyrost/klatkę zaokrągla się do zera i taśma stoi); pętla po połowie
      szerokości (duplikaty). */
+  var btn=document.getElementById('opBtn');
   if(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches){
-    track.classList.add('op-stop'); return;
+    track.classList.add('op-stop');
+    if(btn) btn.parentNode.hidden=true;   /* nic sie nie rusza - nie ma czego zatrzymywac */
+    return;
   }
   var mq=window.matchMedia('(max-width:960px)');
   var stopped=false;    /* trwała pauza (tap/swipe) */
   var pressing=false;   /* palec/przycisk wciśnięty (chwilowa pauza w trakcie dotyku) */
   var pos=null, downX=null, moved=false;
 
-  function applyStopped(){ track.classList.toggle('op-stop', stopped); }
+  /* Sam klik w tasme nie dawal zadnego sygnalu: na desktopie hover i tak pauzuje,
+     wiec po kliknieciu nic nie "zaskakiwalo", a kolejny klik wznawial przewijanie.
+     Stad jawny przycisk pokazujacy stan (i wymagany przez WCAG 2.2.2 mechanizm
+     zatrzymania ruchomej tresci). */
+  function applyStopped(){
+    track.classList.toggle('op-stop', stopped);
+    if(!btn) return;
+    btn.setAttribute('aria-pressed', stopped?'true':'false');
+    btn.classList.toggle('is-stopped', stopped);
+    btn.querySelector('.op-btn-txt').textContent = stopped ? 'Wznów przewijanie' : 'Zatrzymaj przewijanie';
+  }
+  if(btn) btn.addEventListener('click',function(){ stopped=!stopped; applyStopped(); pos=null; });
 
   track.addEventListener('pointerdown',function(e){
     downX=e.clientX; moved=false; pressing=true; pos=null;
