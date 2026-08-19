@@ -333,11 +333,11 @@ details[open] .faq-icon{background:var(--blue);color:#fff}
   --pomarancz-500:var(--orange);--pomarancz-600:var(--orange-d);--f-naglowki:var(--fh);
   display:flex;justify-content:center;align-items:flex-end;gap:clamp(.8rem,2.4vw,2rem);
   margin-top:0;padding-bottom:.6rem}
-.fon{flex:0 1 250px;background:var(--granat-900);border-radius:34px;padding:9px;box-shadow:0 30px 60px -28px rgb(15 30 43 / .45)}
-.fon--srodek{flex-basis:265px;transform:translateY(-1.4rem)}
+.fon{flex:0 1 242px;background:var(--granat-900);border-radius:34px;padding:9px;box-shadow:0 30px 60px -28px rgb(15 30 43 / .45)}
+.fon--srodek{flex-basis:257px;transform:translateY(-1.4rem)}
 .fon--lewy{transform:rotate(-1.6deg)}
 .fon--prawy{transform:rotate(1.6deg)}
-.fon__ekran{background:#f6f8fb;border-radius:26px;overflow:hidden;display:flex;flex-direction:column;height:460px;padding:0 12px 12px}
+.fon__ekran{background:#f6f8fb;border-radius:26px;overflow:hidden;display:flex;flex-direction:column;height:472px;padding:0 12px 12px}
 .fon__pasek{display:flex;justify-content:space-between;align-items:center;font-size:.62rem;font-weight:700;color:var(--granat-900);padding:8px 6px 6px;letter-spacing:.04em}
 .fon__kropki{font-size:.45rem;letter-spacing:.18em;color:var(--szary-600)}
 .apk__naglowek{display:flex;justify-content:space-between;align-items:flex-start;padding:4px 4px 10px}
@@ -375,7 +375,7 @@ details[open] .faq-icon{background:var(--blue);color:#fff}
 .apk__ilosc{margin-left:auto;color:var(--szary-600);font-size:.6rem}
 @media (max-width:860px){
   .makieta{flex-wrap:wrap;align-items:stretch}
-  .fon{flex-basis:250px}
+  .fon{flex-basis:242px}
   .fon--srodek{transform:none}
   .fon--lewy,.fon--prawy{transform:none}
 }
@@ -388,7 +388,7 @@ details[open] .faq-icon{background:var(--blue);color:#fff}
 .two-col-photo .fon--prawy{transform:rotate(3.5deg) translateY(2.4rem);margin-left:-2.4rem;z-index:1}
 @media(max-width:960px){
   .two-col-photo .makieta{flex-wrap:nowrap}
-  .two-col-photo .fon{flex:0 1 220px}
+  .two-col-photo .fon{flex:0 1 214px}
 }
 @media(max-width:520px){
   .two-col-photo .fon--lewy{transform:rotate(-2deg)}
@@ -1214,8 +1214,8 @@ main a:not([class]):focus-visible{outline:2px solid var(--blue);outline-offset:2
    aspect-ratio pilnuje proporcji także tam, gdzie zoom nie zadziała. */
 @media(max-width:600px){
   .two-col-photo .makieta{zoom:.78;padding-bottom:3rem}
-  .two-col-photo .fon{flex:0 0 250px}
-  .fon__ekran{height:auto;aspect-ratio:250 / 460}
+  .two-col-photo .fon{flex:0 0 242px}
+  .fon__ekran{height:auto;aspect-ratio:242 / 472}
 }
 /* progi dobrane do realnej szerokości kolumny: makieta ma ~462px projektowych,
    więc zoom schodzi dopiero wtedy, gdy przestaje się mieścić (iPhone 375 → .70, SE 320 → .62) */
