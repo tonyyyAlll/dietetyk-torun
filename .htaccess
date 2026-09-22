@@ -7,10 +7,22 @@ ErrorDocument 404 /404.html
 <IfModule mod_rewrite.c>
 RewriteEngine On
 
-# 1) Wymuś HTTPS i domenę bez www
-RewriteCond %{HTTPS} !=on [OR]
+# 1) TYMCZASOWO WYŁĄCZONE WYMUSZANIE HTTPS — 22.09.2026
+#    Certyfikat dla dietetyktorun.pl przestał działać; serwer home.pl podaje swój
+#    domyślny *.home.pl, który nie pasuje do domeny, więc przeglądarka blokowała
+#    wejście pełnoekranowym ostrzeżeniem. Zostaje samo sklejanie www → bez www.
+#    PRZYWRÓCIĆ natychmiast po uruchomieniu certyfikatu (blok niżej).
 RewriteCond %{HTTP_HOST} ^www\. [NC]
-RewriteRule ^(.*)$ https://dietetyktorun.pl/$1 [R=301,L]
+RewriteRule ^(.*)$ http://dietetyktorun.pl/$1 [R=301,L]
+
+#    ↓ DOCELOWY BLOK — odkomentować, gdy HTTPS znów działa.
+#    Wariant dla Cloudflare: za proxy serwer widzi połączenie od Cloudflare,
+#    więc o protokole użytkownika mówi nagłówek X-Forwarded-Proto, nie %{HTTPS}.
+# RewriteCond %{HTTP:X-Forwarded-Proto} !https
+# RewriteCond %{HTTPS} !=on
+# RewriteRule ^(.*)$ https://dietetyktorun.pl/$1 [R=301,L]
+# RewriteCond %{HTTP_HOST} ^www\. [NC]
+# RewriteRule ^(.*)$ https://dietetyktorun.pl/$1 [R=301,L]
 
 # 2) Stary endpoint API WordPressa → nowe API rezerwacji (parametry zachowane)
 RewriteRule ^wp-json/rs/v1/api/?$ /booking-system/api/api.php [L,QSA]
