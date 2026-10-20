@@ -15,3 +15,6 @@ _*.html
 Thumbs.db
 desktop.ini
 .DS_Store
+
+# Robocze zdjęcia źródłowe (wizerunek pacjentów) — repo jest publiczne
+_tmp/
